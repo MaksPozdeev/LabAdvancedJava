@@ -1,5 +1,8 @@
 package com.maksim.pozdeev.task_regexp;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -7,6 +10,7 @@ import java.util.regex.Pattern;
 class FileHandler {
     private String regexFindPhoneNumber;
     private String regexOldNumberSeparator;
+    private static final Logger logger = LogManager.getLogger();
 
     FileHandler(String regexFindPhoneNumber, String regexOldNumberSeparator) {
         this.regexFindPhoneNumber = regexFindPhoneNumber;
@@ -23,8 +27,8 @@ class FileHandler {
                 strBuilder.append(System.lineSeparator());
             }
             resultStr = strBuilder.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            logger.error("Ошибка ввода/вывода " + ex);
         }
         return resultStr;
     }
@@ -56,8 +60,9 @@ class FileHandler {
 
             pw.print(stringToSave);
             result = true;
-        } catch (IOException e) {
-            System.err.println("ошибка открытия потока " + e);
+        } catch (IOException ex) {
+            System.err.println("ошибка открытия потока " + ex);
+            logger.error("ошибка открытия потока " + ex);
         }
         return result;
     }

@@ -1,12 +1,17 @@
 package com.maksim.pozdeev.reflection_and_annotations.classes;
 
 import com.maksim.pozdeev.reflection_and_annotations.annotations.Secured;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+//import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class UseAnnotation {
+
+    private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
         String className = "com.maksim.pozdeev.reflection_and_annotations.classes.Entity";
@@ -27,10 +32,12 @@ public class UseAnnotation {
                     System.out.println("Параметры:  id=" + secured.id() + " style= " + secured.style());
                 } else {
                     System.out.println("Аннотация @Secured НЕ найдена");
+                    logger.info("Аннотация @Secured НЕ найдена");
                 }
             }
         } catch (ClassNotFoundException ex) {
-            System.err.println("1й catch: " + ex.getMessage());
+//            System.err.println("1й catch: " + ex.getMessage());
+            logger.error("Error message", ex);
         }
     }
 }
