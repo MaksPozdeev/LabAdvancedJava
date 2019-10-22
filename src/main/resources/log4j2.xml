@@ -1,13 +1,15 @@
 <!--{{urvanov-syntax-highlighter-internal:0}}-->
-<Configuration status="debug" strict="true"
-               name="XMLConfigTest" packages="org.apache.logging.log4j.test">
+<Configuration status="info"
+               strict="true"
+               name="XMLConfigTest"
+               packages="org.apache.logging.log4j.test">
     <Filter type="ThresholdFilter"
-            level="error" />
+            level="trace" />
 
     <Appenders>
-<!--        <Console name="STDOUT">-->
-<!--            <Layout type="PatternLayout" pattern="%m %n" />-->
-<!--        </Console>-->
+        <Console name="STDOUT">
+            <Layout type="PatternLayout" pattern="%m %n" />
+        </Console>
         <RollingFile name="rollingFile"
                      fileName="logs/log4j2.log"
                      filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">

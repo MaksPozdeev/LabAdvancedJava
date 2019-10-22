@@ -1,5 +1,6 @@
 package com.maksim.pozdeev.calculator.classes;
 
+import com.maksim.pozdeev.calculator.Main;
 import com.maksim.pozdeev.calculator.exceptions.NotCorrectExpressionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +16,7 @@ public class Calculator {
      * Обрабатываем RPN (считаем результат)
      * Возвращаем результат
      * */
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static String calculate(String inputExp) throws Exception {
         String result;
