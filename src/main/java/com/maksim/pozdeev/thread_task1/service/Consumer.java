@@ -17,6 +17,7 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
+//        Пока в очереди есть задания бери на выполнение
         while (myQueue.getQueueSize() > 0){
             myQueue.get();
             try {

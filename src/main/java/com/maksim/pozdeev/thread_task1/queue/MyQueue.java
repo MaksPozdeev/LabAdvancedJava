@@ -6,75 +6,82 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class MyQueue {
-/*
-* Состоит из:
-*   хранилища данных (FIFO)
-*   информация о хранилище:
-*       емкость хранилища (capacity)
-*       кол-во записанных объектов (size)
-*       переменная хранящая кол-во полученных запросов
-*   методы для работы с хранилищем:
-*       принимать данные - записывать в хранилище (put)
-*       отдавать данные - отдавать данные из хранилища (get)
-*   Доп.функционла:
-*       логирование
-* */
+    /*
+     * Состоит из:
+     *   хранилища данных (FIFO)
+     *   информация о хранилище:
+     *       емкость хранилища (capacity)
+     *       кол-во записанных объектов (size)
+     *       переменная хранящая кол-во полученных запросов
+     *   методы для работы с хранилищем:
+     *       принимать данные - записывать в хранилище (put)
+     *       отдавать данные - отдавать данные из хранилища (get)
+     *   Доп.функционла:
+     *       логирование
+     * */
 
-/**
- * TO-DO:
- * 1. перепутал логику работы get и put...
- *
- *
- * */
-
-    private static final Logger logger = LogManager.getLogger(Application.class);
-    private static int countOfReceivedRequests = 0;
+    private static final Logger logger = LogManager.getLogger(MyQueue.class);
+    private volatile int countOfReceivedRequests = 0;
 
     private LinkedList<HotelBookingRequest> queue = new LinkedList<>();
 
-    private volatile int queueSize = 0;
+    public synchronized void put(HotelBookingRequest request) {
+        logger.info("Поступил " + countOfReceivedRequests + " request с id: " + request.getIdRequests());
 
-    public synchronized void put(HotelBookingRequest request){
-        logger.info("Поступил "+ countOfReceivedRequests+ " request");
-        while (queue.size() >= Application.MAX_SIZE_OF_QUEUE){
-            try {
-                wait();
-            } catch (InterruptedException ex) {
-                logger.error("Возникло исключение во время wait(): " + ex);
-//                Thread.currentThread().interrupt();
+//        Проверка на лимит выполненных запросов
+        if (getCountOfReceivedRequests() < Application.REQUEST_LIMIT) {
+            logger.info("Лимит не достигнут - продолжаем...");
+
+//        Проверяем на заполнение очереди
+            while (queue.size() >= Application.MAX_SIZE_OF_QUEUE) {
+                try {
+                    wait();
+                } catch (InterruptedException ex) {
+                    logger.error("Возникло исключение во время wait(): " + ex);
+                    Thread.currentThread().interrupt();
+                }
             }
+            logger.info("Очередь не заполнена, add запрос");
+            queue.add(request);
+            logger.info("Поток " + Thread.currentThread().getName() + " добавил запрос id: " + request.getIdRequests());
+            countOfReceivedRequests++;
+
+            logger.info("Принят новый запрос. Всего принято: " + countOfReceivedRequests);
+//            notify();
+        } else {
+            logger.info("Достигнут лимит по обработке запросов: " + countOfReceivedRequests + " Закрываю поток: " + Thread.currentThread().getName());
+            Thread.currentThread().interrupt();
         }
-        queue. add(request);
-        logger.info("Поток " + Thread.currentThread().getName() + " добавил запрос id: " +request.getIdRequests());
-        queueSize++;
-        countOfReceivedRequests++;
-        logger.info("Принят новй запрос. Всего принято: " + countOfReceivedRequests);
-//        notifyAll();
+        notifyAll();
     }//put
 
-    public synchronized HotelBookingRequest get(){
+    public synchronized HotelBookingRequest get() {
 
         boolean isCountRequestNotLimit = countOfReceivedRequests < Application.REQUEST_LIMIT;
 
-        while (queue.isEmpty() && isCountRequestNotLimit){
+        while (queue.isEmpty() && isCountRequestNotLimit) {
             try {
                 wait();
-            } catch (InterruptedException e) {
-                logger.error(e.getMessage());
-//                Thread.currentThread().interrupt();
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+                logger.error("Возникло исключение во время wait(): " + ex);
             }
         }
         HotelBookingRequest request = queue.removeLast();
-        queueSize--;
+//        queueSize--;
         logger.info("Запрос был отправлен на исполнение.");
 //        notifyAll();
         return request;
     } //get
 
-    public synchronized int getQueueSize() {
-        return queueSize;
+
+    public int getQueueSize() {
+        return queue.size();
+    }
+
+    public synchronized int getCountOfReceivedRequests() {
+        return countOfReceivedRequests;
     }
 }
