@@ -1,7 +1,10 @@
 package com.maksim.pozdeev.thread_task1;
 
+import com.maksim.pozdeev.thread_task1.dto.HotelBookingRequest;
+import com.maksim.pozdeev.thread_task1.executor.ExecutorConsumers;
+import com.maksim.pozdeev.thread_task1.executor.ExecutorProducers;
 import com.maksim.pozdeev.thread_task1.queue.MyQueue;
-import com.maksim.pozdeev.thread_task1.service.Producer;
+import com.maksim.pozdeev.thread_task1.queue.MyQueue2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,33 +12,29 @@ public class Application {
 
     private static final Logger logger = LogManager.getLogger(Application.class);
 
-    public static final Integer MAX_SIZE_OF_QUEUE = 25;
-    public static final Integer REQUEST_LIMIT = 15;
-    public static final Integer NUMBER_OF_PRODUCERS = 3;
-    public static final Integer NUMBER_OF_CONSUMERS = 6;
-
     public static void main(String[] args) {
         logger.info("Start application!");
 
-        MyQueue myQueue = new MyQueue();
+        MyQueue<HotelBookingRequest> myQueue = new MyQueue2<>();
 
-        Thread thread;
-        for (int i = 0; i < NUMBER_OF_PRODUCERS; i++) {
-            thread = new Thread(new Producer(myQueue));
-            logger.info("Создали новый поток");
-            thread.start();
-            logger.info("Запустили новый поток: " + thread.getName());
-        }
+        ExecutorProducers executorProducers = new ExecutorProducers(myQueue);
+        ExecutorConsumers executorConsumers = new ExecutorConsumers(myQueue);
 
         try {
-            Thread.currentThread().join();
+            executorProducers.start();
+            executorConsumers.start();
         } catch (InterruptedException e) {
-            logger.error("Произошло исключения в главном птоке во время ожидания выполнения потоков" + e);
-//            e.printStackTrace();
+            e.printStackTrace();
+            logger.error("Application.main(): " + e);
         }
 
-//        System.out.println(myQueue.get());
+//        Вывод "для себя" в конце его не будет
+//        for (int i = 0; i < myQueue.size(); i++) {
+//            System.out.println(myQueue.get(i));
+//        }
+
+
+
 
     }
-
 }
