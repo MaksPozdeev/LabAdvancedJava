@@ -1,14 +1,18 @@
 package com.maksim.pozdeev.thread_task1.queue;
 
+import com.maksim.pozdeev.thread_task1.dto.HotelBookingRequest;
+
 public interface MyQueue<T> {
 
-    int size();
+//    int size();
 
-    boolean isEmpty();
+//    boolean isEmpty();
 
     void put(T t);
 
-    T get(int i);
-
     T take();
+
+//    boolean canGetRequest();
+
+//    int getRequestsReceived();
 }

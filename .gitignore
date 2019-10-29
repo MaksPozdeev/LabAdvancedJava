@@ -3,6 +3,7 @@
 .idea
 /out
 /target
+/logs/2019-10
 
 # Compiled class file
 *.class

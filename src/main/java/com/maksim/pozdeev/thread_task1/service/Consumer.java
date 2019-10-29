@@ -2,13 +2,12 @@ package com.maksim.pozdeev.thread_task1.service;
 
 import com.maksim.pozdeev.thread_task1.dto.HotelBookingRequest;
 import com.maksim.pozdeev.thread_task1.queue.MyQueue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-/**
- * To-DO
- * пока количество обработанных заданий не достигнуто предела и очередь пуста - ждём()
- * аналог ArrayBlockingQueue.take()
- */
 public class Consumer implements Runnable {
+
+    private static final Logger logger = LogManager.getLogger(Consumer.class);
 
     private MyQueue<HotelBookingRequest> myQueue;
 
@@ -18,18 +17,14 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
-        HotelBookingRequest hbr;
-//        Пока в очереди есть задания бери на выполнение
-        while (myQueue.size() > 0) {
-            hbr = myQueue.take();
-
-//            Сообщение из задания
-//            В очереди освободилось место - как дать знать консумеру...
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//        logger.info("Consumer.run(): init");
+        HotelBookingRequest hbr = myQueue.take();
+        logger.info("booker #" + Thread.currentThread().getName() + ": обработал запрос " + hbr.getIdRequests());
+        System.out.println("Запрос ID: " + hbr.getIdRequests() + " получен из очереди");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.maksim.pozdeev.thread_task1.executor;
 
+import com.maksim.pozdeev.thread_task1.Application;
 import com.maksim.pozdeev.thread_task1.dto.HotelBookingRequest;
 import com.maksim.pozdeev.thread_task1.queue.MyQueue;
 import com.maksim.pozdeev.thread_task1.service.Producer;
@@ -15,7 +16,6 @@ public class ExecutorProducers {
     private static final Logger logger = LogManager.getLogger(ExecutorProducers.class);
 
     private static final Integer NUMBER_OF_PRODUCERS = 3;
-    private static final Integer REQUEST_LIMIT = 15; //ВОПРОС!! А этот показатель должен быть тут или в Executor'е?
 
     private MyQueue<HotelBookingRequest> myQueue;
 
@@ -25,13 +25,13 @@ public class ExecutorProducers {
 
     public void start() throws InterruptedException {
         logger.info("ExecutorProducers.start()");
-
         ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_PRODUCERS);
-        for (int i = 0; i < REQUEST_LIMIT; i++) {
+
+        for (int i = 0; i < Application.REQUEST_LIMIT; i++) {
             Producer producer = new Producer(myQueue);
             executorService.submit(producer);
         }
         executorService.shutdown();
-        executorService.awaitTermination(15, TimeUnit.SECONDS);
+//        executorService.awaitTermination(2, TimeUnit.SECONDS);
     }
 }
