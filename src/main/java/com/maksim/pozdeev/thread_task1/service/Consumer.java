@@ -21,11 +21,12 @@ public class Consumer implements Runnable {
         HotelBookingRequest hbr;
 //        Пока в очереди есть задания бери на выполнение
         while (myQueue.size() > 0) {
-            hbr = myQueue.removeFirst();
+            hbr = myQueue.take();
+
 //            Сообщение из задания
 //            В очереди освободилось место - как дать знать консумеру...
             try {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

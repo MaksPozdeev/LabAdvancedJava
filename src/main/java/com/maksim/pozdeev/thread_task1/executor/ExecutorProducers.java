@@ -32,6 +32,6 @@ public class ExecutorProducers {
             executorService.submit(producer);
         }
         executorService.shutdown();
-            executorService.awaitTermination(15, TimeUnit.SECONDS);
+        executorService.awaitTermination(15, TimeUnit.SECONDS);
     }
 }

@@ -8,6 +8,10 @@ import com.maksim.pozdeev.thread_task1.queue.MyQueue2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 public class Application {
 
     private static final Logger logger = LogManager.getLogger(Application.class);
@@ -24,14 +28,14 @@ public class Application {
             executorProducers.start();
             executorConsumers.start();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             logger.error("Application.main(): " + e);
         }
 
-//        Вывод "для себя" в конце его не будет
-//        for (int i = 0; i < myQueue.size(); i++) {
-//            System.out.println(myQueue.get(i));
-//        }
+/*        Вывод "для себя" в конце его не будет
+        for (int i = 0; i < myQueue.size(); i++) {
+            System.out.println(myQueue.get(i));
+        }*/
 
 
 

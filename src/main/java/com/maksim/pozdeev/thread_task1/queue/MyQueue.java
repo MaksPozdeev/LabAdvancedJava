@@ -10,6 +10,5 @@ public interface MyQueue<T> {
 
     T get(int i);
 
-    T removeFirst();
-
+    T take();
 }

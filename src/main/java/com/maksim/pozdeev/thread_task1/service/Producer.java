@@ -29,12 +29,5 @@ public class Producer implements Runnable {
 //        if (1 && 2){  всё ок -> put}
 //        else {ожидаем()}
         myQueue.put(hotelBookingRequest);
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            logger.error("Произошла ошибка во время сна" + e);
-        }
-//        Thread.currentThread().interrupt();
     }
 }
