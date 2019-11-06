@@ -8,7 +8,6 @@ import com.maksim.pozdeev.thread_task1.queue.MyQueue3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class Application {
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
     public static final Integer REQUEST_LIMIT = 15;

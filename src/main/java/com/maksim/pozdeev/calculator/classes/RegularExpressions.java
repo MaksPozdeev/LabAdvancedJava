@@ -6,7 +6,6 @@ public class RegularExpressions {
     public static final String NUMBERS_REG_EX = "(\\d+([\\.]\\d+)?)";
     public static final String OPERATORS_REG_EX = "[\\+\\-\\*\\/^]";
 
-
     private RegularExpressions() {
     }
 }
