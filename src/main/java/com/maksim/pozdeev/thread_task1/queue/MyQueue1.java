@@ -1,29 +1,29 @@
 package com.maksim.pozdeev.thread_task1.queue;
 
 import com.maksim.pozdeev.thread_task1.dto.HotelBookingRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 
 public class MyQueue1 {
-    /*
+    /**
      * Состоит из:
-     *   хранилища данных (FIFO)
-     *   информация о хранилище:
-     *       емкость хранилища (capacity)
-     *       кол-во записанных объектов (size)
-     *       переменная хранящая кол-во полученных запросов
-     *   методы для работы с хранилищем:
-     *       принимать данные - записывать в хранилище (put)
-     *       отдавать данные - отдавать данные из хранилища (get)
-     *   Доп.функционла:
-     *       логирование
-     * */
+     * хранилища данных (FIFO)
+     * информация о хранилище:
+     * емкость хранилища (capacity)
+     * кол-во записанных объектов (size)
+     * переменная хранящая кол-во полученных запросов
+     * методы для работы с хранилищем:
+     * принимать данные - записывать в хранилище (put)
+     * отдавать данные - отдавать данные из хранилища (get)
+     * Доп.функционла:
+     * логирование
+     */
     private static final Integer REQUEST_LIMIT = 15;
     private static final Integer MAX_SIZE_OF_QUEUE = 5;
 
-    private static final Logger logger = LogManager.getLogger(MyQueue1.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyQueue1.class);
     private volatile int countOfReceivedRequests = 0;
 
     private LinkedList<HotelBookingRequest> queue = new LinkedList<>();

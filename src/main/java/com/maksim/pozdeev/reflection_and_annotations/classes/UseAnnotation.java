@@ -1,17 +1,16 @@
 package com.maksim.pozdeev.reflection_and_annotations.classes;
 
 import com.maksim.pozdeev.reflection_and_annotations.annotations.Secured;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-//import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class UseAnnotation {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LoggerFactory.getLogger(UseAnnotation.class);
 
     public static void main(String[] args) {
         String className = "com.maksim.pozdeev.reflection_and_annotations.classes.Entity";

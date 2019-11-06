@@ -1,15 +1,15 @@
 package com.maksim.pozdeev.thread_task1.queue;
 
 import com.maksim.pozdeev.thread_task1.dto.HotelBookingRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MyQueue3<T extends HotelBookingRequest> implements MyQueue<T> {
 
-    private static final Logger logger = LogManager.getLogger(MyQueue3.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyQueue3.class);
 
     private static final Integer MAX_SIZE_OF_QUEUE = 5;
     private static final Integer REQUEST_LIMIT = 15;
@@ -20,13 +20,11 @@ public class MyQueue3<T extends HotelBookingRequest> implements MyQueue<T> {
 
     @Override
     public synchronized void put(T request) {
-//        logger.info("put() was init");
-
         while (queue.size() >= MAX_SIZE_OF_QUEUE) {
             try {
                 wait();
             } catch (InterruptedException e) {
-//                logger.error("MyQueue2.put(): ".concat(String.valueOf(e)));
+                logger.error("MyQueue3.put(): ", e);
                 Thread.currentThread().interrupt();
             }
         }
@@ -39,7 +37,7 @@ public class MyQueue3<T extends HotelBookingRequest> implements MyQueue<T> {
             queue.add(request);
             logger.info("booker #" + Thread.currentThread().getName() + ": принял запрос " + request.getIdRequests());
             atomicInteger.incrementAndGet();
-        }else{
+        } else {
             Thread.currentThread().interrupt();
         }
     }
@@ -51,7 +49,7 @@ public class MyQueue3<T extends HotelBookingRequest> implements MyQueue<T> {
             try {
                 wait();
             } catch (InterruptedException e) {
-//                logger.error("MyQueue2.take(): ".concat(String.valueOf(e)));
+                logger.error("MyQueue3.take(): ", e);
                 Thread.currentThread().interrupt();
             }
         }

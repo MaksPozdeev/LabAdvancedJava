@@ -1,13 +1,13 @@
 package com.maksim.pozdeev.thread_task1.queue;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.util.LinkedList;
 
 public class MyQueue2<T> implements MyQueue<T> {
-    private static final Logger logger = LogManager.getLogger(MyQueue2.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(MyQueue2.class);
     private static final Integer MAX_SIZE_OF_QUEUE = 5;
     private static final Integer REQUEST_LIMIT = 15;
 
@@ -89,6 +89,5 @@ public class MyQueue2<T> implements MyQueue<T> {
         logger.info("take(): Запрос был взят из очереди. requestsReceived = " + requestsReceivedTake);
         return queue.removeFirst();
     }
-
 
 }

@@ -4,16 +4,14 @@ import com.maksim.pozdeev.thread_task1.Application;
 import com.maksim.pozdeev.thread_task1.dto.HotelBookingRequest;
 import com.maksim.pozdeev.thread_task1.queue.MyQueue;
 import com.maksim.pozdeev.thread_task1.service.Consumer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class ExecutorConsumers {
-
-    private static final Logger logger = LogManager.getLogger(ExecutorConsumers.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExecutorConsumers.class);
 
     private static final Integer NUMBER_OF_CONSUMERS = 6;
 
@@ -27,7 +25,7 @@ public class ExecutorConsumers {
         logger.info("ExecutorConsumer.start()");
         ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_CONSUMERS);
 
-        int i =0;
+        int i = 0;
         while (i <= Application.REQUEST_LIMIT) {
             Consumer consumer = new Consumer(myQueue);
             executorService.submit(consumer);
@@ -37,6 +35,5 @@ public class ExecutorConsumers {
         executorService.shutdown();
 //        executorService.awaitTermination(2, TimeUnit.SECONDS);
     }
-
 
 }

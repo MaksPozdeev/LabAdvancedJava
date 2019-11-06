@@ -4,16 +4,14 @@ import com.maksim.pozdeev.thread_task1.Application;
 import com.maksim.pozdeev.thread_task1.dto.HotelBookingRequest;
 import com.maksim.pozdeev.thread_task1.queue.MyQueue;
 import com.maksim.pozdeev.thread_task1.service.Producer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class ExecutorProducers {
-
-    private static final Logger logger = LogManager.getLogger(ExecutorProducers.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExecutorProducers.class);
 
     private static final Integer NUMBER_OF_PRODUCERS = 3;
 

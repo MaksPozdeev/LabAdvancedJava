@@ -1,7 +1,5 @@
 package com.maksim.pozdeev.task_regexp;
 
-import java.io.File;
-
 public class Main {
 
     private static final String REGEX_FIND_PHONE_NUMBER = "\\+\\d\\(\\d{3}\\)\\s\\d{3}\\s\\d{2}\\s\\d{2}";

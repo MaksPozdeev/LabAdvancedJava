@@ -2,16 +2,16 @@ package com.maksim.pozdeev.thread_task1.service;
 
 import com.maksim.pozdeev.thread_task1.Application;
 import com.maksim.pozdeev.thread_task1.dto.HotelBookingRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class RequestGenerator {
-
-    private static final Logger logger = LogManager.getLogger(Application.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestGenerator.class);
     private static Random rnd = new Random();
 
     public HotelBookingRequest generationRequest() {
@@ -42,7 +42,7 @@ public class RequestGenerator {
             Date dateOfDeparture = format.parse(strDayOfDeparture);
             return new HotelBookingRequest(dateOfArrival, dateOfDeparture, hotelNameList.get(hotelRandom));
         } catch (ParseException e) {
-            logger.info(e.getMessage());
+            logger.error("Ошибка в RequestGenerator: ", e);
         }
         return null;
     }

@@ -1,7 +1,7 @@
 package com.maksim.pozdeev.task_regexp;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.regex.Matcher;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 class FileHandler {
     private String regexFindPhoneNumber;
     private String regexOldNumberSeparator;
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LoggerFactory.getLogger(FileHandler.class);
 
     FileHandler(String regexFindPhoneNumber, String regexOldNumberSeparator) {
         this.regexFindPhoneNumber = regexFindPhoneNumber;
