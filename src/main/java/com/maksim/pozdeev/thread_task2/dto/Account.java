@@ -1,26 +1,22 @@
 package com.maksim.pozdeev.thread_task2.dto;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Account implements Serializable {
-    private static final Logger logger = LoggerFactory.getLogger(Account.class);
 
     private int idAccount;
     private int idClient;
     private Long balanceAccount;
-
-    private Lock lock = new ReentrantLock();
+    private Lock lock;
 
     public Account(int idAccount, int idClient, Long balanceAccount) {
         this.idAccount = idAccount;
         this.idClient = idClient;
         this.balanceAccount = balanceAccount;
+        this.lock = new ReentrantLock();
     }
 
     @Override

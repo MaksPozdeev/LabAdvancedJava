@@ -8,11 +8,11 @@ import java.util.stream.IntStream;
 
 public class AccountsGenerator {
 
-    private static final int NUMBER_OF_ACCOUNTS = 15;
+    private static final int NUMBER_OF_ACCOUNTS = 3;
     private static final int NUMBER_OF_CLIENTS = 10;
     private static final Long MAXIMUM_BALANCE = 20000L;
 
-    public static List<Account> generate() {
+    static List<Account> generate() {
         return IntStream.rangeClosed(1, NUMBER_OF_ACCOUNTS)
                 .mapToObj(i -> new Account(
                         i,
