@@ -1,11 +1,11 @@
 package com.maksim.pozdeev.thread_task2.services;
 
 import com.maksim.pozdeev.thread_task2.dto.Account;
+import com.maksim.pozdeev.thread_task2.exception.NotEnoughFundsToTranslateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TransferService {
-
     private static final Logger logger = LoggerFactory.getLogger(TransferService.class);
 
     public boolean doTransfer(Account sender, Account recipient, long transferAmount) {
@@ -16,19 +16,20 @@ public class TransferService {
             throw new IllegalArgumentException("Некорректная сумма перевода: <=0");
         } else {
             long senderBalance = sender.getBalanceAccount();
-            if (senderBalance < transferAmount) {
-                logger.error("Недостаточно средств для перевода!");
-//                throw new IllegalArgumentException("У отправителья с ID:" + sender.getIdAccount() + " недостаточно средств: " +
-//                        sender.getBalanceAccount() + " для перевода: " + transferAmount);
-            } else {
-                long recipientBalance = recipient.getBalanceAccount();
-                sender.setBalanceAccount(senderBalance - transferAmount);
-                recipient.setBalanceAccount(recipientBalance + transferAmount);
-                flag = true;
-//        logger.info("Перевод: успех!");
+            try {
+                if (senderBalance < transferAmount) {
+                    throw new NotEnoughFundsToTranslateException("Недостаточно средств для перевода!");
+                } else {
+                    long recipientBalance = recipient.getBalanceAccount();
+                    sender.setBalanceAccount(senderBalance - transferAmount);
+                    recipient.setBalanceAccount(recipientBalance + transferAmount);
+                    flag = true;
+                }
+            } catch (NotEnoughFundsToTranslateException ex) {
+                logger.info("Недостаточно средств для перевода!");
             }
         }
-        return  flag;
+        return flag;
     }
 
 }
