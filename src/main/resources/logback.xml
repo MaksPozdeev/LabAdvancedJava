@@ -9,6 +9,7 @@
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/slf4jlogback.log</file>
+<!--        <param name="Append" value="false" />-->
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>slf4jlogback.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -17,7 +18,8 @@
 
         </rollingPolicy>
         <encoder>
-            <pattern>%d{dd.MM.yyyy HH:mm:ss} [%thread] %-5level %logger{20} - %msg%n</pattern>
+<!--            <pattern>%d{dd.MM.yyyy HH:mm:ss} [%thread] %-5level %logger{20} - %msg%n</pattern>-->
+            <pattern>%d{ISO8601} [%-5p][%-16.16t][%20.20c{1}] - %m%n</pattern>
         </encoder>
     </appender>
 
