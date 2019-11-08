@@ -31,7 +31,7 @@ public class TransactionLauncher {
             if (executorService.isShutdown()) {
                 logger.info("Общий баланс аккаунтов до:{} и после транзакций: {}", totalBefore, accountsList.getTotalBalance());
 
-                System.out.println("Общий баланс аккаунтов после транзакций: " + accountsList.getTotalBalance());
+                System.out.println("Общий баланс аккаунтов до: " + totalBefore + " и после транзакций: "+ accountsList.getTotalBalance());
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
