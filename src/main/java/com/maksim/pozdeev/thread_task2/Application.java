@@ -11,9 +11,10 @@ public class Application {
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) throws FileNotFoundException {
-        logger.info(" -=== Start main() ===-");
+        logger.info(" -=== Start Application ===-");
         InitializeData.run();
         TransactionLauncher.run();
+        logger.info(" -=== Finish Application ===-");
     }
 
 }
