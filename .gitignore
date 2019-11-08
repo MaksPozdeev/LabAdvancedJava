@@ -3,6 +3,8 @@
 .idea
 /out
 /target
+/logs/2019-10
+/src/main/resources/accounts
 
 # Compiled class file
 *.class
@@ -18,3 +20,4 @@
 *.zip
 *.tar.gz
 *.rar
+
