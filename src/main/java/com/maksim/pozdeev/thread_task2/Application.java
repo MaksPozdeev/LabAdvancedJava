@@ -2,6 +2,7 @@ package com.maksim.pozdeev.thread_task2;
 
 import com.maksim.pozdeev.thread_task2.services.InitializeData;
 import com.maksim.pozdeev.thread_task2.services.TransactionLauncher;
+import com.maksim.pozdeev.thread_task2.threadTransfer.TransferTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +15,7 @@ public class Application {
         logger.info(" -=== Start Application ===-");
         InitializeData.run();
         TransactionLauncher.run();
+        System.out.println("Failed transactions: " + TransferTask.getNumberFailedTransactions());
         logger.info(" -=== Finish Application ===-");
     }
 
