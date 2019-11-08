@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public class AccountsGenerator {
 
-    private static final int NUMBER_OF_ACCOUNTS = 20;
+    private static final int NUMBER_OF_ACCOUNTS = 10;
     private static final int NUMBER_OF_CLIENTS = 5;
     private static final Long MAXIMUM_BALANCE = 20000L;
 
