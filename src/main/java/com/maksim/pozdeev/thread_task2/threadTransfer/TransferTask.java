@@ -23,22 +23,25 @@ public class TransferTask implements Runnable {
     public void run() {
         Account sender = getRandomAccount();
         Account recipient = getRandomAccount();
+
         if (sender.getIdAccount() == recipient.getIdAccount()) {
-            logger.error("ОШИБКА: Невозможен перевод с одного счёта на этот-же");
+            logger.info("Невозможен перевод с одного счёта на этот-же");
         } else {
             sender.lockObject();
             recipient.lockObject();
             transferService = new TransferService();
             try {
-                transferService.doTransfer(sender, recipient, getRandomAmount());
+                if (transferService.doTransfer(sender, recipient, getRandomAmount())) {
+                    logger.info("Перевод: успех!");
+                }
             }catch (IllegalArgumentException ex){
-                logger.error("TransferTask.run(). Что-то пошло не так");
-            }finally {
+                logger.error("TransferTask.run(). Что-то пошло не так. ");
+                System.exit(0);
+            } finally {
                 recipient.unlockObject();
                 sender.unlockObject();
             }
         }
-
     }
 
     private Account getRandomAccount() {

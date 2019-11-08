@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 import com.maksim.pozdeev.thread_task2.threadTransfer.TransferTask;
@@ -17,7 +18,7 @@ public class Application {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
     private static final int NUMBER_OF_TRANSACTIONS = 100;
-    private static final int NUMBER_OF_THREADS = 5;
+    private static final int NUMBER_OF_THREADS = 1;
 
     public static void main(String[] args) throws FileNotFoundException {
 
@@ -35,15 +36,21 @@ public class Application {
 
 //        List<Account> accountList = AccountDeserializator.getAccounts();
         AccountsServices accountsList = new AccountsServices();
-        accountsList.doPrintAll();
+//        accountsList.doPrintAll();
         System.out.println("Total balance before transactions: " + accountsList.getTotalBalance());
 
         ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
         IntStream.range(0, NUMBER_OF_TRANSACTIONS)
                 .forEach(x -> executorService.submit(new TransferTask(accountsList)));
         executorService.shutdown();
-        System.out.println("Total balance after transactions: " + accountsList.getTotalBalance());
 
+//        System.out.println("Total balance after transactions: " + accountsList.getTotalBalance());
+        try {
+            executorService.awaitTermination(30, TimeUnit.SECONDS);
+            if ()
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
 }
