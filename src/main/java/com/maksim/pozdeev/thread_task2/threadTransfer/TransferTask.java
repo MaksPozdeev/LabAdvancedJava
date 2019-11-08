@@ -1,19 +1,18 @@
 package com.maksim.pozdeev.thread_task2.threadTransfer;
 
+import com.maksim.pozdeev.calculator.exceptions.NotCorrectExpressionException;
 import com.maksim.pozdeev.thread_task2.dto.Account;
 import com.maksim.pozdeev.thread_task2.services.AccountsServices;
 import com.maksim.pozdeev.thread_task2.services.TransferService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 public class TransferTask implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(TransferTask.class);
+
     private static final Long MAX_TRANSFER_AMOUNT = 15000L;
 
     private AccountsServices accountList;
-    private TransferService transferService;
 
     public TransferTask(AccountsServices accountList) {
         this.accountList = accountList;
@@ -27,14 +26,19 @@ public class TransferTask implements Runnable {
         if (sender.getIdAccount() == recipient.getIdAccount()) {
             logger.info("Невозможен перевод с одного счёта на этот-же");
         } else {
-            sender.lockObject();
-            recipient.lockObject();
-            transferService = new TransferService();
+            if (sender.getIdAccount() < recipient.getIdAccount()) {
+                sender.lockObject();
+                recipient.lockObject();
+            } else {
+                recipient.lockObject();
+                sender.lockObject();
+            }
+            TransferService transferService = new TransferService();
             try {
                 if (transferService.doTransfer(sender, recipient, getRandomAmount())) {
                     logger.info("Перевод: успех!");
                 }
-            }catch (IllegalArgumentException ex){
+            } catch (IllegalArgumentException ex) {
                 logger.error("TransferTask.run(). Что-то пошло не так. ");
                 System.exit(0);
             } finally {
@@ -42,6 +46,12 @@ public class TransferTask implements Runnable {
                 sender.unlockObject();
             }
         }
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private Account getRandomAccount() {
